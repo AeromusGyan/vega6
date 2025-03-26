@@ -1,0 +1,96 @@
+<!-- add-blog.component.html -->
+<div class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+  <div class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6">Add New Blog Post</h2>
+
+    <form [formGroup]="blogForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Title Field -->
+      <div>
+        <label for="title" class="block text-sm font-medium text-gray-700">Title *</label>
+        <div class="mt-1">
+          <input id="title" name="title" type="text" formControlName="title" placeholder="Enter Title"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500">
+        </div>
+        <div *ngIf="blogForm.get('title')?.invalid && (blogForm.get('title')?.dirty || blogForm.get('title')?.touched)"
+             class="mt-1 text-sm text-red-600">
+          <div *ngIf="blogForm.get('title')?.errors?.['required']">Title is required</div>
+          <div *ngIf="blogForm.get('title')?.errors?.['minlength']">Title must be at least 5 characters</div>
+        </div>
+      </div>
+
+      <!-- Slug Field -->
+      <div>
+        <label for="slug" class="block text-sm font-medium text-gray-700">Slug *</label>
+        <div class="mt-1 flex rounded-md shadow-sm">
+          <input id="slug" name="slug" type="text" formControlName="slug"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500">
+        </div>
+        <div *ngIf="blogForm.get('slug')?.invalid && (blogForm.get('slug')?.dirty || blogForm.get('slug')?.touched)"
+             class="mt-1 text-sm text-red-600">
+          <div *ngIf="blogForm.get('slug')?.errors?.['required']">Slug is required</div>
+          <div *ngIf="blogForm.get('slug')?.errors?.['pattern']">Slug can only contain lowercase letters, numbers, and hyphens</div>
+        </div>
+        <p class="mt-1 text-sm text-gray-500">This will be part of your blog's URL</p>
+      </div>
+
+      <!-- Description Field -->
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700">Description *</label>
+        <div class="mt-1">
+          <textarea id="description" name="description" rows="4" formControlName="description" placeholder="Enter Description"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"></textarea>
+        </div>
+        <div *ngIf="blogForm.get('description')?.invalid && (blogForm.get('description')?.dirty || blogForm.get('description')?.touched)"
+             class="mt-1 text-sm text-red-600">
+          <div *ngIf="blogForm.get('description')?.errors?.['required']">Description is required</div>
+          <div *ngIf="blogForm.get('description')?.errors?.['minlength']">Description must be at least 20 characters</div>
+        </div>
+      </div>
+
+      <!-- Status Field -->
+      <div>
+        <label for="status" class="block text-sm font-medium text-gray-700">Status *</label>
+        <select id="status" name="status" formControlName="status"
+                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+          <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+
+      <!-- Image Upload Field -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Featured Image *</label>
+        <div class="mt-1 flex items-center">
+          <div class="flex-shrink-0 h-32 w-32 overflow-hidden rounded-md border border-gray-200">
+            <img *ngIf="previewUrl" [src]="previewUrl" alt="Preview" class="h-full w-full object-cover">
+            <div *ngIf="!previewUrl" class="h-full w-full bg-gray-100 flex items-center justify-center">
+              <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+          </div>
+          <label for="file-upload" class="ml-5 cursor-pointer rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <span>Upload Image</span>
+            <input id="file-upload" name="file-upload" type="file" class="sr-only" accept="image/*" (change)="onFileSelected($event)">
+          </label>
+        </div>
+        <div *ngIf="blogForm.get('image')?.invalid && (blogForm.get('image')?.dirty || blogForm.get('image')?.touched)"
+             class="mt-1 text-sm text-red-600">
+          <div *ngIf="blogForm.get('image')?.errors?.['required']">Featured image is required</div>
+        </div>
+        <p class="mt-1 text-sm text-gray-500">Recommended size: 1200x630 pixels</p>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex justify-end space-x-3">
+        <button type="button" routerLink="/dashboard"
+                class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          Cancel
+        </button>
+        <button type="submit" [disabled]="blogForm.invalid"
+                class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+          Save Blog Post
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
