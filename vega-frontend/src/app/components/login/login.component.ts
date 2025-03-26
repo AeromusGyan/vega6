@@ -27,13 +27,11 @@ export class LoginComponent {
       this.service.login(formValue).subscribe({
         next: (response) => {
           console.log('Login successful', response);
-          // Handle successful login (e.g., redirect to dashboard)
           this.service.saveLogin(response);
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
           console.error('Login failed', error);
-          // Handle error
         }
       });
     }

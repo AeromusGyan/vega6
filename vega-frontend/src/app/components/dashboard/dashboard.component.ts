@@ -42,7 +42,6 @@ export class DashboardComponent {
   }
 
   deleteBlog(blogId: number) {
-    // Implement delete functionality
     this.service.deleteBlog(blogId).subscribe((res: any) => {
       this.blogs = this.blogs.filter((blog: { id: number; }) => blog.id !== blogId);
     });

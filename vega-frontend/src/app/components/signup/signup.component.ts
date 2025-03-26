@@ -32,7 +32,6 @@ export class SignupComponent {
       this.selectedFile = file;
       this.signupForm.patchValue({profileImage: file});
 
-      // Preview the image
       const reader = new FileReader();
       reader.onload = () => {
         this.previewUrl = reader.result;
@@ -45,12 +44,10 @@ export class SignupComponent {
     if (this.signupForm.valid) {
       const formData = new FormData();
 
-      // Append all form fields to FormData
       formData.append('name', this.signupForm.get('name')?.value);
       formData.append('email', this.signupForm.get('email')?.value);
       formData.append('password', this.signupForm.get('password')?.value);
 
-      // Append the file if selected
       if (this.selectedFile) {
         formData.append('profile', this.selectedFile, this.selectedFile.name);
       }
@@ -58,16 +55,13 @@ export class SignupComponent {
       this.service.signup(formData).subscribe({
         next: (response) => {
           console.log('Signup successful', response);
-          // Handle successful signup (e.g., redirect to login)
           this.router.navigate(['/login']);
         },
         error: (error) => {
           console.error('Signup failed', error);
-          // Handle error
         }
       });
     } else {
-      // Mark all fields as touched to show validation messages
       this.signupForm.markAllAsTouched();
     }
   }

@@ -17,7 +17,7 @@ export class PostComponent {
   route = inject(ActivatedRoute);
   service = inject(ServicesService);
   slug: any;
-  replies: any[] = [];  // Store replies
+  replies: any[] = []; 
   replyForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {

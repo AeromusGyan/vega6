@@ -60,7 +60,6 @@ export class EditComponent {
       this.selectedFile = file;
       this.blogForm.patchValue({image: file});
 
-      // Preview the image
       const reader = new FileReader();
       reader.onload = () => {
         this.previewUrl = reader.result;
@@ -73,14 +72,12 @@ export class EditComponent {
     if (this.blogForm.valid) {
       const formData = new FormData();
 
-      // Append all form fields to FormData
       formData.append('title', this.blogForm.get('title')?.value);
       formData.append('slug', this.blogForm.get('slug')?.value);
       formData.append('description', this.blogForm.get('description')?.value);
       formData.append('status', this.blogForm.get('status')?.value);
       formData.append('thumbnail_id', this.blog.thumbnail_id);
 
-      // Append the file if selected
       if (this.selectedFile) {
         formData.append('image', this.selectedFile, this.selectedFile.name);
       }
@@ -88,7 +85,6 @@ export class EditComponent {
       this.service.updateBlog(formData, this.blog.id).subscribe({
         next: (response) => {
           console.log('Blog updated successfully', response);
-          // Reset form after successful submission
           this.blogForm.reset({
             status: 'Draft'
           });
@@ -102,7 +98,6 @@ export class EditComponent {
       });
 
     } else {
-      // Mark all fields as touched to show validation messages
       this.blogForm.markAllAsTouched();
     }
   }
