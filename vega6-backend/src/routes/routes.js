@@ -4,11 +4,8 @@ const userController = require('../controllers/userController');
 const blogController = require("../controllers/blogController");
 
 const upload = require('../middlewares/upload');
-const {verifyToken, checkRole} = require('../middlewares/auth');
+const {verifyToken} = require('../middlewares/auth');
 
-const {userValidation} = require('../utils/validator');
-
-const {check} = require("express-validator");
 const path = require("path");
 
 class Routes {
